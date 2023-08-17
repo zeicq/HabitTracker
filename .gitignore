@@ -1,0 +1,11 @@
+﻿/src/Domain/bin/
+/src/Domain/obj/
+
+/src/Application/bin/
+/src/Application/obj/
+
+/src/Infrastructure/bin/
+/src/Infrastructure/obj/
+
+/src/WebAPI/bin/
+/src/WebAPI/obj/
