@@ -2,7 +2,7 @@
 using MediatR;
 using Domain.Entity;
 
-namespace Application.Features.Habits.Create;
+namespace Application.Features.Habits.Command.Create;
 
 public class CreateHabitCommandHandler : IRequestHandler<CreateHabitCommand>
 {
