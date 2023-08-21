@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Application.Features.Habit.Create;
+namespace Application.Features.Habits.Create;
 
 public class CreateHabitCommand : IRequest
 {

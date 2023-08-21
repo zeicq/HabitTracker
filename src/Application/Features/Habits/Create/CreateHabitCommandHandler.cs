@@ -2,7 +2,7 @@
 using MediatR;
 using Domain.Entity;
 
-namespace Application.Features.Habit.Create;
+namespace Application.Features.Habits.Create;
 
 public class CreateHabitCommandHandler : IRequestHandler<CreateHabitCommand>
 {
@@ -15,13 +15,11 @@ public class CreateHabitCommandHandler : IRequestHandler<CreateHabitCommand>
 
     public async Task Handle(CreateHabitCommand request, CancellationToken cancellationToken)
     {
-        var habit = new Domain.Entity.Habit()
+        var habit = new Habit()
         {
             Name = request.Name
         };
 
         await _habitRepository.AddAsync(habit);
-
-        return Unit.Value;
     }
 }
