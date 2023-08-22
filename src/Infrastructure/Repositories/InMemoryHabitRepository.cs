@@ -9,26 +9,53 @@ public class InMemoryHabitRepository : IHabitRepository
 
     public async Task<List<Habit>> GetAllAsync()
     {
-        return _habit.ToList();
+        return await Task.Run(() => _habit.ToList());
     }
 
     public async Task<Habit> GetByIdAsync(int id)
     {
-        return _habit.SingleOrDefault(x => x.Id == id);
+        return await Task.Run(() => _habit.SingleOrDefault(x => x.Id == id));
     }
-
+    
     public async Task AddAsync(Habit habit)
     {
-        _habit.Add(habit);
+        await Task.Run(() => _habit.Add(habit));
     }
 
     public async Task UpdateAsync(Habit habit)
     {
-        throw new NotImplementedException();
+        await Task.Run(() =>
+            {
+                Habit existingHabit = _habit.FirstOrDefault(h => h.Id == habit.Id);
+
+                if (existingHabit != null)
+                {
+                    existingHabit.Name = habit.Name;
+                    existingHabit.Description = habit.Description;
+                }
+                else
+                {
+                    throw new KeyNotFoundException("Habit not found.");
+                }
+            });
     }
 
-    public Task DeleteAsync(Habit habit)
+
+    public async Task DeleteAsync(Habit habit)
     {
-        throw new NotImplementedException();
+        await Task.Run(() =>
+            {
+                Habit existingHabit = _habit.FirstOrDefault(h => h.Id == habit.Id);
+
+                if (existingHabit != null)
+                {
+                    _habit.Remove(existingHabit);
+                }
+                else
+                {
+                    throw new KeyNotFoundException("Habit not found.");
+                }
+            });
     }
+
 }
