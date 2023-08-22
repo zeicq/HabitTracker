@@ -1,7 +1,7 @@
 ﻿using Domain.Entity;
 using MediatR;
 
-namespace Application.Features.Habits.Queries;
+namespace Application.Features.Habits.Queries.Id;
 
 public class GetHabitQuery : IRequest<Habit>
 {

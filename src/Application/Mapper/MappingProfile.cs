@@ -1,4 +1,5 @@
 using Application.Features.Habits.Queries;
+using Application.Features.Habits.Queries.All;
 using AutoMapper;
 using Domain.Entity;
 

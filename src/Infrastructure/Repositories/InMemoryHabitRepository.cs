@@ -7,8 +7,9 @@ public class InMemoryHabitRepository : IHabitRepository
 {
     private static readonly ISet<Habit> _habit = new HashSet<Habit>()
     {
-        new Habit(){Name = "Learn .NET",Description = "Nothig",IsCompleted = true},
-        new Habit(){Name = "Learn English",Description = "Nothig",IsCompleted = true,},
+        new Habit(1,"C#"),
+        new Habit(2,"English"),
+        new Habit(3,"JavaScript")
     };
     
     
@@ -39,6 +40,7 @@ public class InMemoryHabitRepository : IHabitRepository
             {
                 existingHabit.Name = habit.Name;
                 existingHabit.Description = habit.Description;
+                existingHabit.IsCompleted = habit.IsCompleted;
             }
             else
             {
