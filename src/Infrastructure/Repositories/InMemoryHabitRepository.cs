@@ -47,8 +47,21 @@ public class InMemoryHabitRepository : IHabitRepository
         });
     }
 
-    public Task DeleteAsync(Habit habit)
+
+    public async Task DeleteAsync(Habit habit)
     {
-        throw new NotImplementedException();
+        await Task.Run(() =>
+            {
+                Habit existingHabit = _habit.FirstOrDefault(h => h.Id == habit.Id);
+
+                if (existingHabit != null)
+                {
+                    _habit.Remove(existingHabit);
+                }
+                else
+                {
+                    throw new KeyNotFoundException("Habit not found.");
+                }
+            });
     }
 }
