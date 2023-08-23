@@ -66,9 +66,8 @@ public class InMemoryHabitRepository : IHabitRepository
             }
         });
     }
-
-    public async Task<bool> IsUniqueHabitAsync(string name)
+    public Task<bool> IsUniqueHabitAsync(string name)
     {
-        return await Task.Run(() => { return _habit.All(h => h.Name != name); });
+        return Task.FromResult(!_habit.Any(h => h.Name == name));
     }
 }
