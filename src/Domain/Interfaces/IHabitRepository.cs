@@ -9,4 +9,5 @@ public interface IHabitRepository
     Task AddAsync(Habit habit);
     Task UpdateAsync(Habit habit);
     Task DeleteAsync(Habit habit);
+    Task<bool> IsUniqueHabitAsync(string name);
 }
