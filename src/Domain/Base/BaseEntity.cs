@@ -2,7 +2,8 @@
 
 public abstract class BaseEntity
 {
-    public int Id { get; protected set; }
-    public DateTime CreatedAt { get; protected set; } = DateTime.UtcNow;
-    public DateTime? UpdatedAt { get; protected set; }
+    public string CreatedBy { get; protected set; }
+    public DateTime Created { get; protected set; }
+    public string LastModifiedBy { get; protected set; }
+    public DateTime? LastModified { get; protected set; }
 }

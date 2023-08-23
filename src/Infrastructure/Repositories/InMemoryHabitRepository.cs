@@ -5,12 +5,16 @@ namespace Infrastructure.Repositories;
 
 public class InMemoryHabitRepository : IHabitRepository
 {
+  
     private static readonly ISet<Habit> _habit = new HashSet<Habit>()
     {
-        new Habit(1,"C#"),
-        new Habit(2,"English"),
-        new Habit(3,"JavaScript")
+        new Habit(){Id = 1,Description = "Empty",IsCompleted = true,Name = "English"},
+        new Habit(){Id = 2,Description = "Empty",IsCompleted = true,Name = "C#"},
+        new Habit(){Id = 3,Description = "Empty",IsCompleted = true,Name = ".NET"}
+    
     };
+    private int _next = _habit.Any() ? _habit.Max(h => h.Id) + 1 : 1;
+    
     
     
 
@@ -28,6 +32,8 @@ public class InMemoryHabitRepository : IHabitRepository
 
     public async Task AddAsync(Habit habit)
     {
+        
+        habit.Id = _next++;
         await Task.Run(() => _habit.Add(habit));
     }
 
