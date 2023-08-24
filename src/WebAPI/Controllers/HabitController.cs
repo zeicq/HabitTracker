@@ -3,6 +3,7 @@ using Application.Features.Habits.Command.Delete;
 using Application.Features.Habits.Command.Update;
 using Application.Features.Habits.Queries.All;
 using Application.Features.Habits.Queries.Id;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,11 +26,16 @@ public class HabitController : ControllerBase
         try
         {
             await _mediator.Send(command);
-            return Ok("Habit created successfully.");
+            return Ok("Habit utworzony pomyślnie.");
+        }
+        catch (ValidationException ex)
+        {
+            // Obsługa błędów walidacji
+            return BadRequest(ex.Errors);
         }
         catch (Exception ex)
         {
-            return BadRequest($"Failed to create habit: {ex.Message}");
+            return BadRequest($"Nie udało się utworzyć nawyku: {ex.Message}");
         }
     }
 
