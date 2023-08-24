@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace Application.Features.Habits.Command.Create;
 
-public class CreateHabitValidator : AbstractValidator<CreateHabitCommand>
+public class CreateHabitValidator : AbstractValidator<Habit>
 {
     private readonly IHabitRepository _habitRepository;
 

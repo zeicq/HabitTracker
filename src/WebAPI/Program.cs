@@ -1,10 +1,5 @@
-using System.Reflection;
 using Application;
-using Application.Features.Habits.Command.Create;
-using Domain.Interfaces;
 using Infrastructure;
-using Infrastructure.Repositories;
-using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.ApplicationServices();
-builder.Services.InfrastructureServices();
+var configuration = builder.Configuration;
+builder.Services.InfrastructureServices(configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

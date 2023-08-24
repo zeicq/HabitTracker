@@ -1,16 +1,25 @@
-﻿using System.Reflection;
-using Domain.Interfaces;
+﻿using Domain.Interfaces;
+using Infrastructure.Persistence.Contexts;
 using Infrastructure.Repositories;
-using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure;
 
 public static class InfrastructureServiceCollection
 {
-    public static IServiceCollection InfrastructureServices(this IServiceCollection services)
+    public static IServiceCollection InfrastructureServices(this IServiceCollection services,
+        IConfiguration configuration)
     {
-        services.AddScoped<IHabitRepository, InMemoryHabitRepository>();
+   
+        services.AddDbContext<MssqlDbContext>(options =>
+            options.UseSqlServer(
+                configuration.GetConnectionString("DefaultConnection"),
+                b => b.MigrationsAssembly(typeof(MssqlDbContext).Assembly.FullName)));
+        
+
+        services.AddScoped<IHabitRepository, HabitRepository>();
         return services;
     }
 }

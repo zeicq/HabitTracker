@@ -26,10 +26,11 @@ public class InMemoryHabitRepository : IHabitRepository
         return habit;
     }
 
-    public async Task AddAsync(Habit habit)
+    public async Task<Habit> AddAsync(Habit habit)
     {
         habit.Id = _next++;
         await Task.Run(() => _habit.Add(habit));
+        return habit;
     }
 
     public async Task UpdateAsync(Habit habit)
