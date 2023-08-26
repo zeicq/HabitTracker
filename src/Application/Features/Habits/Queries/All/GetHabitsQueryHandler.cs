@@ -19,6 +19,9 @@ public class GetHabitsQueryHandler : IRequestHandler<GetHabitsQuery, List<HabitV
     public async Task<List<HabitViewModel>> Handle(GetHabitsQuery request, CancellationToken cancellationToken)
     {
         var habitLists= await _repository.GetAllAsync();
+        habitLists.Select(item => item.Description ?? "").ToList();
+
+
         return _mapper.Map<List<HabitViewModel>>(habitLists);
     }
 }

@@ -19,9 +19,10 @@ public class HabitRepository : IHabitRepository
         return await _dbContext.Habits.FindAsync(id);
     }
 
-    public async Task<List<Habit>> GetAllAsync()
+    public async Task<IList<Habit>> GetAllAsync()
     {
-        return await _dbContext.Habits.ToListAsync();
+       
+        return await _dbContext.Habits.AsNoTracking().ToListAsync();
     }
 
     public async Task<Habit> AddAsync(Habit habit)

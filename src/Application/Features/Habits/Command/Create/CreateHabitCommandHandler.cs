@@ -16,8 +16,11 @@ public class CreateHabitCommandHandler : IRequestHandler<CreateHabitCommand, Res
 
     public async Task<Response<Habit>> Handle(CreateHabitCommand request, CancellationToken cancellationToken)
     {
-        var newHabit = new Habit { Name = request.Name };
-        var response = new Response<Habit>(newHabit);
+        var newHabit = new Habit { Name = request.Name, Description = request.Description };
+
+        var addedHabit = await _habitRepository.AddAsync(newHabit);
+
+        var response = new Response<Habit>(addedHabit);
         return await Task.FromResult(response);
     }
 }

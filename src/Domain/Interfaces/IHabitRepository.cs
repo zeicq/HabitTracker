@@ -5,7 +5,7 @@ namespace Domain.Interfaces;
 public interface IHabitRepository
 {
     Task<Habit> GetByIdAsync(int id);
-    Task<List<Habit>> GetAllAsync();
+    Task<IList<Habit>> GetAllAsync();
     Task<Habit> AddAsync(Habit habit);
     Task UpdateAsync(Habit habit);
     Task DeleteAsync(Habit habit);

@@ -14,7 +14,7 @@ public class InMemoryHabitRepository : IHabitRepository
 
     private int _next = _habit.Any() ? _habit.Max(h => h.Id) + 1 : 1;
 
-    public async Task<List<Habit>> GetAllAsync()
+    public async Task<IList<Habit>> GetAllAsync()
     {
         var tasks = await Task.FromResult(_habit.ToList());
         return tasks;
