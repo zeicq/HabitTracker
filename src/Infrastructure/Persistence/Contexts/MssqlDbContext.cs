@@ -7,13 +7,16 @@ namespace Infrastructure.Persistence.Contexts;
 
 public class MssqlDbContext : DbContext
 {
-   
     public MssqlDbContext(DbContextOptions<MssqlDbContext> options)
         : base(options)
     {
     }
 
     public DbSet<Habit> Habits { get; set; }
+    public DbSet<Progress> Progresses { get; set; }
+    public DbSet<Schedule> Schedules { get; set; }
+    public DbSet<Team> Teams { get; set; }
+
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
@@ -33,8 +36,7 @@ public class MssqlDbContext : DbContext
                     break;
             }
         }
+
         return base.SaveChangesAsync(cancellationToken);
     }
-    
-
 }
