@@ -20,10 +20,20 @@ public class InMemoryHabitRepository : IHabitRepository
         return tasks;
     }
 
+    public Task<IReadOnlyList<Habit>> GetPagedReponseAsync(int pageNumber, int pageSize)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Habit> GetByIdAsync(int id)
     {
         var habit = await Task.FromResult(_habit.SingleOrDefault(x => x.Id == id));
         return habit;
+    }
+
+    Task<IReadOnlyList<Habit>> IGenericRepositoryBaseAsync<Habit>.GetAllAsync()
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<Habit> AddAsync(Habit habit)
