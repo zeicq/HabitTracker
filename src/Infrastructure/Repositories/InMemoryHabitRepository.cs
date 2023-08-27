@@ -14,26 +14,26 @@ public class InMemoryHabitRepository : IHabitRepository
 
     private int _next = _habit.Any() ? _habit.Max(h => h.Id) + 1 : 1;
 
-    public async Task<IList<Habit>> GetAllAsync()
+    public async Task<IReadOnlyList<Habit>> GetAllAsync()
     {
-        var tasks = await Task.FromResult(_habit.ToList());
-        return tasks;
+        var habits = await Task.FromResult(_habit.ToList());
+        return habits;
     }
 
-    public Task<IReadOnlyList<Habit>> GetPagedReponseAsync(int pageNumber, int pageSize)
+    public async Task<IReadOnlyList<Habit>> GetPagedReponseAsync(int pageNumber, int pageSize)
     {
-        throw new NotImplementedException();
+        var habits = await Task.FromResult(_habit
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList());
+
+        return habits;
     }
 
     public async Task<Habit> GetByIdAsync(int id)
     {
         var habit = await Task.FromResult(_habit.SingleOrDefault(x => x.Id == id));
         return habit;
-    }
-
-    Task<IReadOnlyList<Habit>> IGenericRepositoryBaseAsync<Habit>.GetAllAsync()
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<Habit> AddAsync(Habit habit)
@@ -77,6 +77,7 @@ public class InMemoryHabitRepository : IHabitRepository
             }
         });
     }
+
     public Task<bool> IsUniqueHabitAsync(string name)
     {
         return Task.FromResult(!_habit.Any(h => h.Name == name));
