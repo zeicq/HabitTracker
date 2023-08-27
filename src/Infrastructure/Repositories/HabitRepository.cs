@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class HabitRepository : IHabitRepository
+public class HabitRepository : GenericRepositoryBaseAsync<Habit>, IHabitRepository
 {
     private readonly MssqlDbContext _dbContext;
 
-    public HabitRepository(MssqlDbContext dbContext)
+    public HabitRepository(MssqlDbContext dbContext) : base(dbContext)
     {
         _dbContext = dbContext;
     }
@@ -19,10 +19,9 @@ public class HabitRepository : IHabitRepository
         return await _dbContext.Habits.FindAsync(id);
     }
 
-    public async Task<IList<Habit>> GetAllAsync()
+    public async Task<IReadOnlyList<Habit>> GetAllAsync()
     {
-       
-        return await _dbContext.Habits.AsNoTracking().ToListAsync();
+        return await _dbContext.Habits.ToListAsync();
     }
 
     public async Task<Habit> AddAsync(Habit habit)

@@ -2,12 +2,7 @@
 
 namespace Domain.Interfaces;
 
-public interface IHabitRepository
+public interface IHabitRepository : IGenericRepositoryBaseAsync<Habit>
 {
-    Task<Habit> GetByIdAsync(int id);
-    Task<IList<Habit>> GetAllAsync();
-    Task<Habit> AddAsync(Habit habit);
-    Task UpdateAsync(Habit habit);
-    Task DeleteAsync(Habit habit);
     Task<bool> IsUniqueHabitAsync(string name);
 }
