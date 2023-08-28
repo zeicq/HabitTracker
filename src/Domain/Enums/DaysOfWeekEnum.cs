@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums;
 
-public enum DayOfWeekEnum
+public enum DaysOfWeekEnum
 {
     Monday,
     Tuesday,

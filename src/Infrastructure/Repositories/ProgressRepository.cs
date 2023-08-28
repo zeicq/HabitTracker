@@ -14,9 +14,16 @@ public class ProgressRepository : IProgressRepository
         _dbContext = dbContext;
     }
 
+    public async Task<Progress> GetByIdAsync(int id)
+    {
+          return await _dbContext.Progresses.FindAsync(id);
+    }
+
     public async Task<Progress> AddAsync(Progress progress)
     {
-        return await _dbContext.Set<Progress>().FindAsync(progress);
+        await _dbContext.AddAsync(progress);
+        await _dbContext.SaveChangesAsync();
+        return progress;
     }
 
     public async Task UpdateAsync(Progress progress)

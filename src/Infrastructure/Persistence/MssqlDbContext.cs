@@ -1,7 +1,7 @@
 ﻿using Domain.Base;
 using Domain.Entity;
+using Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Persistence.Contexts;
 
@@ -15,8 +15,13 @@ public class MssqlDbContext : DbContext
     public DbSet<Habit> Habits { get; set; }
     public DbSet<Progress> Progresses { get; set; }
     public DbSet<Schedule> Schedules { get; set; }
-    public DbSet<Team> Teams { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new HabitConfiguration());
+        modelBuilder.ApplyConfiguration(new ProgressConfiguration());
+        modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
+    }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {

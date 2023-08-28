@@ -16,6 +16,6 @@ public class TeamRepository: GenericRepositoryBaseAsync<Team>,ITeamRepository
 
     public async Task<bool> IsUniqueTeamAsync(string name)
     {
-        return !await _dbContext.Teams.AnyAsync(h => h.Name == name);
+        throw new Exception();
     }
 }

@@ -16,7 +16,6 @@ public static class InfrastructureServiceCollection
             options.UseSqlServer(
                 configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly(typeof(MssqlDbContext).Assembly.FullName)));
-       // services.AddScoped<IHabitRepository, HabitRepository>();
         services.AddTransient(typeof(IGenericRepositoryBaseAsync<>), typeof(GenericRepositoryBaseAsync<>));
         services.AddTransient<IHabitRepository, HabitRepository>();
         return services;
