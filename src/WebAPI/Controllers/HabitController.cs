@@ -14,28 +14,37 @@ namespace WebAPI.Controllers;
 public class HabitController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IConfiguration _configuration;
 
-    public HabitController(IMediator mediator)
+
+    public HabitController(IMediator mediator, IConfiguration configuration)
     {
         _mediator = mediator;
+        _configuration = configuration;
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateHabit([FromBody] CreateHabitCommand command)
     {
         try
         {
-            await _mediator.Send(command);
-            return Ok("Habit utworzony pomyślnie.");
+            var httpsUrl = _configuration.GetSection("PageUrl")["Https"];
+            var create_habit = await _mediator.Send(command);
+            var id = create_habit.Data.Id;
+
+
+            var newHabitUrl = $"{httpsUrl}/Habit/{id}";
+            return Created(newHabitUrl, $"{newHabitUrl}");
         }
         catch (ValidationException ex)
         {
-            // Obsługa błędów walidacji
             return BadRequest(ex.Errors);
         }
         catch (Exception ex)
         {
-            return BadRequest($"Nie udało się utworzyć nawyku: {ex.Message}");
+            return BadRequest($"Failed to create a habit: {ex.Message}");
         }
     }
 
@@ -73,6 +82,7 @@ public class HabitController : ControllerBase
         await _mediator.Send(updateCommand);
         return NoContent();
     }
+
     [HttpDelete("{id}", Name = "DeleteHabit")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
