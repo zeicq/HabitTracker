@@ -18,6 +18,7 @@ public static class InfrastructureServiceCollection
                 b => b.MigrationsAssembly(typeof(MssqlDbContext).Assembly.FullName)));
         services.AddTransient(typeof(IGenericRepositoryBaseAsync<>), typeof(GenericRepositoryBaseAsync<>));
         services.AddTransient<IHabitRepository, HabitRepository>();
+        services.AddTransient<IScheduleRepository, ScheduleRepository>();
         return services;
     }
 }

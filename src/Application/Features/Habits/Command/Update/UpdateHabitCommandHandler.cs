@@ -18,7 +18,7 @@ public class UpdateHabitCommandHandler : IRequestHandler<UpdateHabitCommand>
 
         if (habit == null)
         {
-            throw new Exception("Nawyku nie znaleziono");
+            throw new Exception("Habit not found");
         }
 
         habit.Name = request.Name;

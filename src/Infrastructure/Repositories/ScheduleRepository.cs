@@ -7,17 +7,17 @@ namespace Infrastructure.Repositories;
 
 public class ScheduleRepository : GenericRepositoryBaseAsync<Schedule>, IScheduleRepository
 {
-    private readonly MssqlDbContext _dbContext;
+    private readonly DbSet<Schedule> _dbContext;
+
 
     public ScheduleRepository(MssqlDbContext dbContext) : base(dbContext)
     {
-        _dbContext = dbContext;
+        _dbContext = dbContext.Set<Schedule>();
     }
 
-    public async Task<IReadOnlyList<Schedule>> GetScheduledBetweenDates(DateTime startDate, DateTime endDate)
+
+    public async Task<bool> IsUniqueScheduleAsync(int habitId)
     {
-        return await _dbContext.Schedules
-            .Where(schedule => schedule.TimeOfDay >= startDate.TimeOfDay && schedule.TimeOfDay <= endDate.TimeOfDay)
-            .ToListAsync();
+        return !await _dbContext.AnyAsync(s => s.HabitId == habitId);
     }
 }
