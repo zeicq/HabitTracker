@@ -19,12 +19,13 @@ public class CreateScheduleCommandHandler : IRequestHandler<CreateScheduleComman
 
     public async Task<Response<Schedule>> Handle(CreateScheduleCommand request, CancellationToken cancellationToken)
     {
-      
+        var convertTimeOfDayToTimeSpan = TimeHelper.ConvertToTimeSpan(request.TimeOfDay);
+
         var newSchedule = new Schedule
         {
             DaysOfWeek = request.DaysOfWeek,
             HabitId = request.HabitId,
-            TimeOfDay = TimeSpan.ParseExact((request.TimeOfDay), "HH:mm", null)
+            TimeOfDay = convertTimeOfDayToTimeSpan
         };
 
         var addedSchedule = await _scheduleRepository.AddAsync(newSchedule);
