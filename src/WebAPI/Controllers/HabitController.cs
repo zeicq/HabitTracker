@@ -1,4 +1,5 @@
 ﻿using Application.Features.Habits.Command.Create;
+using Application.Features.Habits.Command.Delete;
 using Application.Features.Habits.Command.Update;
 using Application.Features.Habits.Queries;
 using Application.Features.Habits.Queries.All;
@@ -38,11 +39,11 @@ public class HabitController : CommonApiController
     }
 
     [HttpDelete("{id}", Name = "DeleteHabit")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesDefaultResponseType]
     public async Task<ActionResult> Delete(int id)
     {
-        await Mediator.Send(id);
+        var result = (await Mediator.Send(new DeleteHabitCommand() { Id = id }));
         return NoContent();
     }
 }

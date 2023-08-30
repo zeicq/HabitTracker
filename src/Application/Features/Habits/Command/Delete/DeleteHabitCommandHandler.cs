@@ -1,9 +1,11 @@
-﻿using Domain.Interfaces;
+﻿using Application.Exceptions;
+using Application.Shared;
+using Domain.Interfaces;
 using MediatR;
 
 namespace Application.Features.Habits.Command.Delete;
 
-public class DeleteHabitCommandHandler : IRequestHandler<DeleteHabitCommand>
+public class DeleteHabitCommandHandler : IRequestHandler<DeleteHabitCommand,  Response<Unit>>
 {
     private readonly IHabitRepository _repository;
 
@@ -12,16 +14,11 @@ public class DeleteHabitCommandHandler : IRequestHandler<DeleteHabitCommand>
         _repository = repository;
     }
 
-    public async Task Handle(DeleteHabitCommand request, CancellationToken cancellationToken)
+    public async Task <Response<Unit>> Handle(DeleteHabitCommand request, CancellationToken cancellationToken)
     {
-        var existingHabit = await _repository.GetByIdAsync(request.Id);
-
-        if (existingHabit == null)
-        {
-            throw new Exception("Habit not found");
-        }
-
-        await _repository.DeleteAsync(existingHabit);
-    
+        var habit = await _repository.GetByIdAsync(request.Id);
+        if (habit == null) throw new KeyNotFoundException("Not habit found");
+        await _repository.DeleteAsync(habit);
+        return new Response<Unit>(Unit.Value);
     }
 }

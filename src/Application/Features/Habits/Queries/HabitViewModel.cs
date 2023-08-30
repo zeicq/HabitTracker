@@ -1,4 +1,4 @@
-namespace Application.Features.Habits.Queries.All;
+namespace Application.Features.Habits.Queries;
 
 public class HabitViewModel
 {
