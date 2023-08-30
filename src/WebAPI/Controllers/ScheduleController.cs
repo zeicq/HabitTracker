@@ -8,57 +8,20 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ScheduleController : ControllerBase
+public class ScheduleController : CommonApiController
 {
-    private readonly IMediator _mediator;
-    private readonly IConfiguration _configuration;
-
-    public ScheduleController(IMediator mediator, IConfiguration configuration)
-    {
-        _mediator = mediator;
-        _configuration = configuration;
-    }
-
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateSchedule([FromBody] CreateScheduleCommand command)
     {
-        try
-        {
-            var create_schedule = await _mediator.Send(command);
-
-            return Ok("Succes");
-        }
-        catch (ValidationException ex)
-        {
-            return BadRequest(ex.Errors);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest($"Failed to create a Schedule: {ex.Message}");
-        }
+        var response = await Mediator.Send(command);
+        return Created(UrlResponse, response);
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetSchedule(int id)
     {
-        try
-        {
-            var query = new GetScheduleQuery() { Id = id };
-            var schedule = await _mediator.Send(query);
-
-            if (schedule == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(schedule);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest($"Failed to get schedule: {ex.Message}");
-        }
+        return Ok(await Mediator.Send(id));
     }
-
 }
