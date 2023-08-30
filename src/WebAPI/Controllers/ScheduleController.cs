@@ -1,4 +1,5 @@
 ﻿using Application.Features.Schedules.Command.Create;
+using Application.Features.Schedules.Queries;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -38,4 +39,26 @@ public class ScheduleController : ControllerBase
             return BadRequest($"Failed to create a Schedule: {ex.Message}");
         }
     }
+    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetSchedule(int id)
+    {
+        try
+        {
+            var query = new GetScheduleQuery() { Id = id };
+            var schedule = await _mediator.Send(query);
+
+            if (schedule == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(schedule);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest($"Failed to get schedule: {ex.Message}");
+        }
+    }
+
 }
