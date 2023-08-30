@@ -3,6 +3,7 @@ using Infrastructure;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using WebAPI.Attributes;
+using WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseErrorHandlingMiddleware();
 app.MapControllers();
 
 app.Run();
