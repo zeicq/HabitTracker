@@ -27,4 +27,9 @@
         </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\ScheduleEntries\Delete" />
+      <Folder Include="Features\ScheduleEntries\Update" />
+    </ItemGroup>
+
 </Project>
