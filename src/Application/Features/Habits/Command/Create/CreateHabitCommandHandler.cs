@@ -21,11 +21,10 @@ public class CreateHabitCommandHandler : IRequestHandler<CreateHabitCommand, Res
     public async Task<Response<HabitViewModel>> Handle(CreateHabitCommand request, CancellationToken cancellationToken)
     {
         var newHabit = _mapper.Map<Habit>(request);
+
         var createdHabit = await _habitRepository.AddAsync(newHabit);
-    
         var viewModelHabit = _mapper.Map<HabitViewModel>(createdHabit);
-    
-        var response = new Response<HabitViewModel>(viewModelHabit);
-        return response;
+
+        return new Response<HabitViewModel>(viewModelHabit);
     }
 }

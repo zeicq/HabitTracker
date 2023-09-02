@@ -20,18 +20,21 @@ public class HabitController : CommonApiController
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetHabitById(int id)
     {
         return Ok(await Mediator.Send(new GetHabitByIdQuery() { Id = id }));
     }
 
     [HttpGet(Name = "GetAll")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<HabitViewModel>>> GetAllPosts()
     {
         return Ok(await Mediator.Send(new GetHabitsQuery()));
     }
 
     [HttpPut(Name = "UpdateHabit")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> Update([FromBody] UpdateHabitCommand updateCommand)
     {
         await Mediator.Send(updateCommand);
