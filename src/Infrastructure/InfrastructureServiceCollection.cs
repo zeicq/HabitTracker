@@ -19,6 +19,7 @@ public static class InfrastructureServiceCollection
         services.AddTransient(typeof(IGenericRepositoryBaseAsync<>), typeof(GenericRepositoryBaseAsync<>));
         services.AddTransient<IHabitRepository, HabitRepository>();
         services.AddTransient<IScheduleRepository, ScheduleRepository>();
+        services.AddTransient<IScheduleEntryRepository, ScheduleEntryRepository>();
         return services;
     }
 }
