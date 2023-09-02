@@ -13,7 +13,9 @@ public class HabitConfiguration : IEntityTypeConfiguration<Habit>
         builder.ConfigureBaseEntity();
         builder.Property(h => h.Name).IsRequired().HasMaxLength(100);
         builder.Property(h => h.Description).HasMaxLength(500);
-        builder.Property(h => h.IsCompleted).IsRequired();
+        builder.Property(h => h.IsCompleted).IsRequired();        
+        builder.Property(p => p.CurrentStreakCount).IsRequired();
+        builder.Property(p => p.LongestStreakCount).IsRequired();
         
     }
 }

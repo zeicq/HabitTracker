@@ -18,6 +18,7 @@ public class CreateScheduleCommandHandler : IRequestHandler<CreateScheduleComman
     public CreateScheduleCommandHandler(IScheduleRepository scheduleRepository, IMapper mapper)
     {
         _scheduleRepository = scheduleRepository;
+        _mapper = mapper;
     }
 
     public async Task<Response<ScheduleViewModel>> Handle(CreateScheduleCommand request,
