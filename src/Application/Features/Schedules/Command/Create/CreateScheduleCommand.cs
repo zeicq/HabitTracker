@@ -11,6 +11,7 @@ namespace Application.Features.Schedules.Command.Create;
 
 public class CreateScheduleCommand : IRequest<Response<ScheduleViewModel>>
 {
+    public DateTime StartData { get; set; }
     public ICollection<DaysOfWeekEnum> DaysOfWeek { get; set; }
     
     [DefaultValue("HH:MM")] 

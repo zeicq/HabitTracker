@@ -7,9 +7,9 @@ public class InMemoryHabitRepository : IHabitRepository
 {
     private static readonly ISet<Habit> _habit = new HashSet<Habit>()
     {
-        new Habit() { Id = 1, Description = "Empty", IsCompleted = true, Name = "English" },
-        new Habit() { Id = 2, Description = "Empty", IsCompleted = true, Name = "C#" },
-        new Habit() { Id = 3, Description = "Empty", IsCompleted = true, Name = ".NET" }
+        new Habit() { Id = 1, Description = "Empty",  Name = "English" },
+        new Habit() { Id = 2, Description = "Empty",  Name = "C#" },
+        new Habit() { Id = 3, Description = "Empty",  Name = ".NET" }
     };
 
     private int _next = _habit.Any() ? _habit.Max(h => h.Id) + 1 : 1;
@@ -52,7 +52,7 @@ public class InMemoryHabitRepository : IHabitRepository
             {
                 existingHabit.Name = habit.Name;
                 existingHabit.Description = habit.Description;
-                existingHabit.IsCompleted = habit.IsCompleted;
+                
             }
             else
             {

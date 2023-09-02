@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using Application.Features.Habits.Command.Create;
+using Application.Features.Schedules.Notifiaction;
 using Application.Features.Schedules.Queries;
 using Application.Helpers;
 using Application.Shared;
@@ -14,11 +15,13 @@ public class CreateScheduleCommandHandler : IRequestHandler<CreateScheduleComman
 {
     private readonly IScheduleRepository _scheduleRepository;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
-    public CreateScheduleCommandHandler(IScheduleRepository scheduleRepository, IMapper mapper)
+    public CreateScheduleCommandHandler(IScheduleRepository scheduleRepository, IMapper mapper, IMediator mediator)
     {
         _scheduleRepository = scheduleRepository;
         _mapper = mapper;
+        _mediator = mediator;
     }
 
     public async Task<Response<ScheduleViewModel>> Handle(CreateScheduleCommand request,
@@ -29,6 +32,7 @@ public class CreateScheduleCommandHandler : IRequestHandler<CreateScheduleComman
         var createdSchedule = await _scheduleRepository.AddAsync(schedule);
         var viewModelSchedule = _mapper.Map<ScheduleViewModel>(createdSchedule);
 
+        await _mediator.Publish(new ScheduleCreatedNotification { ScheduleViewModel = viewModelSchedule });
         return new Response<ScheduleViewModel>(viewModelSchedule);
     }
 }
