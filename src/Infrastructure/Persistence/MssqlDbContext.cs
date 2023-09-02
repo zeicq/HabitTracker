@@ -13,13 +13,11 @@ public class MssqlDbContext : DbContext
     }
 
     public DbSet<Habit> Habits { get; set; }
-    public DbSet<Progress> Progresses { get; set; }
     public DbSet<Schedule> Schedules { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new HabitConfiguration());
-        modelBuilder.ApplyConfiguration(new ProgressConfiguration());
         modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
     }
 
