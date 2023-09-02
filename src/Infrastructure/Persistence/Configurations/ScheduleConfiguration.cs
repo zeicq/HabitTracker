@@ -13,7 +13,7 @@ public class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
         builder.ToTable("Schedules");
         builder.ConfigureBaseEntity();
 
-
+        builder.Property(s => s.StartData).IsRequired();
         builder.Property(s => s.TimeOfDay).IsRequired();
         builder.Property(s => s.DaysOfWeek)
             .HasConversion(
@@ -21,6 +21,11 @@ public class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
                 v => v.Split(",", StringSplitOptions.RemoveEmptyEntries)
                     .Select(s => Enum.Parse<DaysOfWeekEnum>(s))
                     .ToList());
+        
+        builder.HasMany(s => s.Entries)
+            .WithOne(e => e.Schedule)
+            .HasForeignKey(e => e.ScheduleId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         builder.HasOne(s =>s.Habit)
             .WithOne(s => s.Schedule)

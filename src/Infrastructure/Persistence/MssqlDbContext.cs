@@ -14,6 +14,7 @@ public class MssqlDbContext : DbContext
 
     public DbSet<Habit> Habits { get; set; }
     public DbSet<Schedule> Schedules { get; set; }
+    public DbSet<ScheduleEntry> ScheduleEntries { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
