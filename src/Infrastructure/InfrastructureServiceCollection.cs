@@ -14,7 +14,7 @@ public static class InfrastructureServiceCollection
     {
         services.AddDbContext<MssqlDbContext>(options =>
             options.UseSqlServer(
-                configuration.GetConnectionString("DefaultConnection"),
+                configuration.GetConnectionString("AzureConnection"),
                 b => b.MigrationsAssembly(typeof(MssqlDbContext).Assembly.FullName)));
         services.AddTransient(typeof(IGenericRepositoryBaseAsync<>), typeof(GenericRepositoryBaseAsync<>));
         services.AddTransient<IHabitRepository, HabitRepository>();
