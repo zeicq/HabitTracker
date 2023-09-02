@@ -1,36 +1,33 @@
 ﻿using System.Globalization;
 using Application.Features.Habits.Command.Create;
+using Application.Features.Schedules.Queries;
 using Application.Helpers;
 using Application.Shared;
+using AutoMapper;
 using Domain.Entity;
 using Domain.Interfaces;
 using MediatR;
 
 namespace Application.Features.Schedules.Command.Create;
 
-public class CreateScheduleCommandHandler : IRequestHandler<CreateScheduleCommand, Response<Schedule>>
+public class CreateScheduleCommandHandler : IRequestHandler<CreateScheduleCommand, Response<ScheduleViewModel>>
 {
     private readonly IScheduleRepository _scheduleRepository;
+    private readonly IMapper _mapper;
 
-    public CreateScheduleCommandHandler(IScheduleRepository scheduleRepository)
+    public CreateScheduleCommandHandler(IScheduleRepository scheduleRepository, IMapper mapper)
     {
         _scheduleRepository = scheduleRepository;
     }
 
-    public async Task<Response<Schedule>> Handle(CreateScheduleCommand request, CancellationToken cancellationToken)
+    public async Task<Response<ScheduleViewModel>> Handle(CreateScheduleCommand request,
+        CancellationToken cancellationToken)
     {
-        var convertTimeOfDayToTimeSpan = TimeHelper.ConvertToTimeSpan(request.TimeOfDay);
+        var schedule = _mapper.Map<Schedule>(request);
 
-        var newSchedule = new Schedule
-        {
-            DaysOfWeek = request.DaysOfWeek,
-            HabitId = request.HabitId,
-            TimeOfDay = convertTimeOfDayToTimeSpan
-        };
+        var createdSchedule = await _scheduleRepository.AddAsync(schedule);
+        var viewModelSchedule = _mapper.Map<ScheduleViewModel>(createdSchedule);
 
-        var addedSchedule = await _scheduleRepository.AddAsync(newSchedule);
-
-        var response = new Response<Schedule>(addedSchedule);
-        return await Task.FromResult(response);
+        return new Response<ScheduleViewModel>(viewModelSchedule);
     }
 }

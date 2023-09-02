@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Features.Schedules.Queries;
 
-public class GetScheduleQuery: IRequest<ScheduleViewModel>
+public class GetScheduleByIdQuery: IRequest<ScheduleViewModel>
 {
     public int Id { get; set; }
 }

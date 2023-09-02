@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Application.Features.Schedules.Queries;
 using Application.Shared;
 using Domain.Entity;
 using Domain.Enums;
@@ -8,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Application.Features.Schedules.Command.Create;
 
-public class CreateScheduleCommand : IRequest<Response<Schedule>>
+public class CreateScheduleCommand : IRequest<Response<ScheduleViewModel>>
 {
     public ICollection<DaysOfWeekEnum> DaysOfWeek { get; set; }
     
