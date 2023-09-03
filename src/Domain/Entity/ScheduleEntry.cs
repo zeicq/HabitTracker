@@ -1,6 +1,8 @@
-﻿namespace Domain.Entity;
+﻿using Domain.Base;
 
-public class ScheduleEntry
+namespace Domain.Entity;
+
+public class ScheduleEntry: IEntityId<int>
 {
     public int Id { get; set; }
     public DateTime Date { get; set; } 

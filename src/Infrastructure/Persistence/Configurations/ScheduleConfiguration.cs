@@ -11,9 +11,7 @@ public class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
     public void Configure(EntityTypeBuilder<Schedule> builder)
     {
         builder.ToTable("Schedules");
-        builder.ConfigureBaseEntity();
-
-        builder.Property(s => s.StartData).IsRequired();
+        builder.HasKey(s => s.Id);
         builder.Property(s => s.TimeOfDay).IsRequired();
         builder.Property(s => s.DaysOfWeek)
             .HasConversion(
@@ -21,6 +19,7 @@ public class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
                 v => v.Split(",", StringSplitOptions.RemoveEmptyEntries)
                     .Select(s => Enum.Parse<DaysOfWeekEnum>(s))
                     .ToList());
+        builder.ConfigureEntityAuditData();
         
         builder.HasMany(s => s.Entries)
             .WithOne(e => e.Schedule)
