@@ -15,16 +15,18 @@ public class MssqlDbContext : DbContext
     public DbSet<Habit> Habits { get; set; }
     public DbSet<Schedule> Schedules { get; set; }
     public DbSet<ScheduleEntry> ScheduleEntries { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new HabitConfiguration());
         modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+        foreach (var entry in ChangeTracker.Entries<EntityAuditData>())
         {
             switch (entry.State)
             {

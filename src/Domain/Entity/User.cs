@@ -1,10 +1,13 @@
 ﻿using Domain.Base;
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Entity;
 
-public class User : BaseEntity
+public class User : EntityAuditData
 {
-    public string Name { get; set; }
+    public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string Email { get; set; }
+    public List<Habit> Habits { get; set; }
+    public string UserId { get; set; } 
+    public IdentityUser IdentityUser { get; set; }
 }
