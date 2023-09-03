@@ -6,11 +6,14 @@ public class Response<T>
 {
     [System.Text.Json.Serialization.JsonIgnore]
     public bool Succeeded { get; set; }
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string Message { get; set; }
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public List<string> Errors { get; set; }
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public T Data { get; set; }
 
     public Response()
@@ -27,5 +30,10 @@ public class Response<T>
     {
         Succeeded = false;
         Message = message;
+    }
+    
+    public Response(List<string> errors)
+    {
+        Errors = errors;
     }
 }
