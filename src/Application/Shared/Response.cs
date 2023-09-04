@@ -31,7 +31,11 @@ public class Response<T>
         Succeeded = false;
         Message = message;
     }
-    
+  
+    public Response(bool succeeded)
+    {
+        Succeeded = succeeded;
+    }
     public Response(List<string> errors)
     {
         Errors = errors;

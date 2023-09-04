@@ -1,22 +1,31 @@
 using Application;
 using Infrastructure;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
-using WebAPI.Attributes;
+using Infrastructure.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
 using WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
-// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => { c.SchemaFilter<DefaultValueSchemaFilter>(); });
-builder.Services.ApplicationServices();
-var configuration = builder.Configuration;
-builder.Services.InfrastructureServices(configuration);
-var app = builder.Build();
+builder.Services.ConfigureSwagger();
 
-// Configure the HTTP request pipeline.
+builder.Services.ApplicationServices();
+builder.Services.InfrastructureServices(configuration);
+
+builder.Services.ConfigureIdentityOptions(configuration);
+builder.Services.ConfigureJwtAuthentication(configuration);
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy =>
+        policy.RequireRole("Admin"));
+    options.AddPolicy("RequireUserRole", policy =>
+        policy.RequireRole("User"));
+    options.AddPolicy("RequireManagerRole", policy =>
+        policy.RequireRole("Manager"));
+});
+var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -24,9 +33,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 app.UseErrorHandlingMiddleware();
 app.MapControllers();
-
 app.Run();
