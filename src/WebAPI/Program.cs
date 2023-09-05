@@ -1,4 +1,5 @@
 using Application;
+using Hangfire;
 using Infrastructure;
 using Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHangfireDashboard("/hangfire");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseErrorHandlingMiddleware();
