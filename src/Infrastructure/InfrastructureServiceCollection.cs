@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Application.Services;
+using Domain.Interfaces;
 using Domain.Settings;
 using Infrastructure.Persistence.Contexts;
 using Infrastructure.Repositories;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Hangfire;
-using Hangfire.SqlServer;
+using Infrastructure.Services;
 
 
 namespace Infrastructure;
@@ -35,7 +36,7 @@ public static class InfrastructureServiceCollection
         services.AddHangfireServer();
         
        
-        
+        services.AddTransient<IEmailService, EmailService>();
         services.Configure<SmtpSettings>(configuration.GetSection("SmtpSettings"));
         return services;
     }
