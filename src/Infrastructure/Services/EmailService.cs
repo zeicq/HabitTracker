@@ -2,9 +2,11 @@
 using System.Net.Mail;
 using Application.Services;
 using Domain.Settings;
+using Hangfire;
 using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Services;
+
 public class EmailService : IEmailService
 {
     private readonly SmtpSettings _smtpSettings;
@@ -15,6 +17,19 @@ public class EmailService : IEmailService
     }
 
     public async Task SendEmailAsync(string toEmail, string subject, string message)
+    {
+        try
+        {
+            BackgroundJob.Enqueue(() => SendEmailInBackground(toEmail, subject, message));
+            
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    public async Task SendEmailInBackground(string toEmail, string subject, string message)
     {
         try
         {
@@ -40,6 +55,7 @@ public class EmailService : IEmailService
             Timeout = _smtpSettings.Timeout,
             DeliveryMethod = SmtpDeliveryMethod.Network,
             UseDefaultCredentials = false,
+
             Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password)
         };
         return client;
@@ -49,10 +65,11 @@ public class EmailService : IEmailService
     {
         var mailMessage = new MailMessage
         {
+            From = new MailAddress(_smtpSettings.Username),
             To = { toEmail },
             Subject = subject,
             Body = message,
-            IsBodyHtml = true
+            IsBodyHtml = true,
         };
         return mailMessage;
     }
