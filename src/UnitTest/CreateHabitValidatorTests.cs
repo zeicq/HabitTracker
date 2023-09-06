@@ -92,7 +92,6 @@ public class CreateHabitValidatorTests
         result.ShouldHaveValidationErrorFor(c => c.Name);
     }
 
-
     [Fact]
     public async Task should_fail_when_name_contain_nonnumeric_alpha_characters()
     {
