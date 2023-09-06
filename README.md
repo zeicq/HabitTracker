@@ -1,4 +1,4 @@
-# HabitTracker
+# HabitTracker - system for managing and implementing habits.
 
 1. Change connection parameters in WebApi for sql server: WebApi/appsettings.json:  `DefaultConnection": "secret.json"`
 
