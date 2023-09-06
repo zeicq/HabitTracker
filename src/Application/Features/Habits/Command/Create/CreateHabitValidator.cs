@@ -17,9 +17,9 @@ public class CreateHabitValidator : AbstractValidator<CreateHabitCommand>
             .MinimumLength(3).WithMessage("{PropertyName} must  exceed 3 characters.")
             .MaximumLength(30).WithMessage("{PropertyName} must not exceed 30 characters.")
             .MustAsync(IsUniqueHabit).WithMessage("{PropertyName} already exists.")
-            .Matches(new Regex("^[A-Za-z0-9]*$")).WithMessage("{PropertyName} can only contain letters and numbers.")
-            .NotEqual("string").WithMessage("{PropertyName} cannot be 'string'.Change the name.")
-            .Must(name => char.IsUpper(name[0])).WithMessage("{PropertyName} must start with an uppercase letter.")
+            .Matches(new Regex("^[A-Za-z0-9 ]*$")).WithMessage("{PropertyName} can only contain letters and numbers.")
+            .Must((name) => string.IsNullOrEmpty(name) || char.IsUpper(name[0]))
+            .WithMessage("{PropertyName} must start with an uppercase letter.")
             .Must(name => !name.Contains("@")).WithMessage("{PropertyName} cannot contain the letter '@'.");
 
         RuleFor(habit => habit.Description)
