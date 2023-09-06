@@ -47,3 +47,6 @@ Default Roles are as follows.
 - [ ] FluentValidation
 - [ ] Bogus
 - [ ] Integrated tests
+
+##Database
+![Database](img/Database_diagram.png)
