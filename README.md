@@ -2,7 +2,7 @@
 
 1. Change connection parameters in WebApi for sql server: WebApi/appsettings.json:  `DefaultConnection": "secret.json"`
 
-2. Change the key to the jwt section in WebApi/appsettings.json:   `Key": "secret.json`
+2. Change the key to the jwt section in WebApi/appsettings.json:   `Key": "secret.json"`
 
 3. Run commands in the WebApi project:
 
@@ -48,5 +48,8 @@ Default Roles are as follows.
 - [ ] Bogus
 - [ ] Integrated tests
 
-##Database
+## Database
 ![Database](img/Database_diagram.png)
+
+## API endpoints
+![Database](img/endpoints.png)
