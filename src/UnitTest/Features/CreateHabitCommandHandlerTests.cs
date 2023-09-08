@@ -1,13 +1,12 @@
 ﻿using Application.Features.Habits.Command.Create;
 using Application.Features.Habits.Queries;
 using AutoMapper;
-using Bogus;
 using Domain.Entity;
 using Domain.Interfaces;
 using FluentAssertions;
 using Moq;
 
-namespace UnitTest;
+namespace UnitTest.Features;
 
 public class CreateHabitCommandHandlerTests
 {

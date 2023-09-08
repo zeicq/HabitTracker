@@ -3,10 +3,9 @@ using Domain.Interfaces;
 using FluentValidation.TestHelper;
 using FluentAssertions;
 using Moq;
-using Xunit;
 
 
-namespace UnitTest;
+namespace UnitTest.Features;
 
 public class CreateHabitValidatorTests
 {

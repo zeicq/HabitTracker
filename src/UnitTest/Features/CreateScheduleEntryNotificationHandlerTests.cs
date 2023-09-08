@@ -7,7 +7,7 @@ using Domain.Interfaces;
 using FluentAssertions;
 using Moq;
 
-namespace UnitTest;
+namespace UnitTest.Features;
 
 public class CreateScheduleEntryNotificationHandlerTests
 {

@@ -1,17 +1,13 @@
 ﻿using FluentAssertions;
 using Moq;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Application.Features.Habits.Command.Delete;
 using Bogus;
 using Domain.Entity;
 using Domain.Interfaces;
 using MediatR;
-using Xunit;
-using Xunit.Sdk;
 
-namespace UnitTest;
+
+namespace UnitTest.Features;
 
 public class DeleteHabitCommandHandlerTests
 

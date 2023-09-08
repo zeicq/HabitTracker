@@ -11,5 +11,6 @@
 /src/WebAPI/obj/
 
 /src/UnitTest/obj/
-/src/UnitTest/bin/
+/src/UnitTest/bin/Debug/
 .idea
+

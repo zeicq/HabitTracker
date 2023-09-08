@@ -3,13 +3,12 @@ using Application.Features.Schedules.Queries;
 using AutoMapper;
 using Bogus;
 using Domain.Entity;
-using Domain.Enums;
 using Domain.Interfaces;
 using FluentAssertions;
 using MediatR;
 using Moq;
 
-namespace UnitTest;
+namespace UnitTest.Features;
 
 public class CreateScheduleCommandHandlerTests
 {
