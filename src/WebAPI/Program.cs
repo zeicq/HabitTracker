@@ -1,8 +1,8 @@
 using Application;
 using Hangfire;
 using Infrastructure;
-using Infrastructure.Persistence.Contexts;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Seeds;
+using Microsoft.AspNetCore.Identity;
 using WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,4 +38,21 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseErrorHandlingMiddleware();
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+    try
+    {
+        await StandardUsers.SeedStandardAsync(userManager, roleManager);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("An error occurred while seeding the database.");
+    }
+}
+
 app.Run();

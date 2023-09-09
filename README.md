@@ -16,7 +16,7 @@ Default Roles are as follows.
 - User
 - Manager
 ## Default credentials
-- Admin - test@test.com  / Password - Test123!@#
+- Admin - admin@admin.com / Password - Test123!@#
 - User - user@user.com  / Password - Test123!@#
   
 ## Features
@@ -35,7 +35,7 @@ Default Roles are as follows.
 - [x] User Management Module (register / generate token)
 - [ ] Redis Caching
 - [x] SQL Server Database
-- [ ] Seeding Users and Habits
+- [x] Seeding Users
 - [x] Custom Exception Handling Middlewares
 - [ ] API Versioning
 - [ ] Pagination
