@@ -1,6 +1,7 @@
 ﻿using Domain.Base;
 using Domain.Entity;
 using Infrastructure.Persistence.Configurations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ public class MssqlDbContext : DbContext
     public DbSet<Habit> Habits { get; set; }
     public DbSet<Schedule> Schedules { get; set; }
     public DbSet<ScheduleEntry> ScheduleEntries { get; set; }
-    public DbSet<User> Users { get; set; }
+    public DbSet<UserProfile> UsersProfile { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -35,19 +36,24 @@ public class MssqlDbContext : DbContext
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
+      
+        IHttpContextAccessor _contextAccessor= new HttpContextAccessor();
+        var identityName = _contextAccessor.HttpContext?.User.Identity.Name;
         foreach (var entry in ChangeTracker.Entries<EntityAuditData>())
         {
+   
+
             switch (entry.State)
             {
                 case EntityState.Added:
                     entry.Entity.Created = DateTime.UtcNow;
-                    entry.Entity.CreatedBy = "User";
+                    entry.Entity.CreatedBy = "registration";
                     entry.Entity.LastModified = DateTime.UtcNow;
-                    entry.Entity.LastModifiedBy = "User";
+                    entry.Entity.LastModifiedBy = "registration";
                     break;
                 case EntityState.Modified:
                     entry.Entity.LastModified = DateTime.UtcNow;
-                    entry.Entity.LastModifiedBy = "User";
+                    entry.Entity.LastModifiedBy = identityName;
                     break;
             }
         }

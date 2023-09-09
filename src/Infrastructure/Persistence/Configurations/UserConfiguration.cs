@@ -4,17 +4,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class UserConfiguration: IEntityTypeConfiguration<User>
+public class UserConfiguration: IEntityTypeConfiguration<UserProfile>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<UserProfile> builder)
     { 
-        builder.Property(u=>u.FirstName).HasMaxLength(100);
-        builder.Property(u=>u.LastName).HasMaxLength(500);
+        builder.HasKey(se => se.UserId);
+        builder.Property(u=>u.FirstName).HasMaxLength(100).IsRequired(false);;
+        builder.Property(u=>u.LastName).HasMaxLength(500).IsRequired(false);;
         builder.ConfigureEntityAuditData();
         
         builder.HasOne(u => u.IdentityUser) 
             .WithOne() 
-            .HasForeignKey<User>(u => u.UserId); 
+            .HasForeignKey<UserProfile>(u => u.UserId); 
         
     }
 }

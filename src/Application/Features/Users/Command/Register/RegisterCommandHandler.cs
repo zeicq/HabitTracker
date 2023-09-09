@@ -1,9 +1,8 @@
 ﻿using System.Net;
 using Application.Features.Users.Command.AddRole;
-using Application.Services;
+using Application.Features.UsersProfile;
 using Application.Shared;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.Features.Users.Command.Register;
@@ -29,6 +28,10 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Response<
         }
 
         var addRule = await _mediator.Send(new AddRoleCommand(user, command.Role));
+        
+        var newUser = await _userManager.FindByEmailAsync(command.Email);
+        var addUserProfile = await _mediator.Send(new CreateUserProfileCommand(){IdUser = newUser.Id});
+        
         return new Response<Unit>(true);
     }
 }

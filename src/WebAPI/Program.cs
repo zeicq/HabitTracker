@@ -14,7 +14,7 @@ builder.Services.ConfigureSwagger();
 
 builder.Services.ApplicationServices();
 builder.Services.InfrastructureServices(configuration);
-
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.ConfigureIdentityOptions(configuration);
 builder.Services.ConfigureJwtAuthentication(configuration);
 builder.Services.AddAuthorization(options =>

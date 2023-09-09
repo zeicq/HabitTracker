@@ -26,7 +26,7 @@ public static class InfrastructureServiceCollection
         services.AddTransient<IHabitRepository, HabitRepository>();
         services.AddTransient<IScheduleRepository, ScheduleRepository>();
         services.AddTransient<IScheduleEntryRepository, ScheduleEntryRepository>();
-        services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IUserProfileRepository, UserRepository>();
         
         services.AddHangfire(conf => conf
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
