@@ -1,4 +1,5 @@
-﻿using Application.Features.Users.Command.RegistrationMessage;
+﻿using Application.Enums;
+using Application.Features.Users.Command.RegistrationMessage;
 using Application.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +11,7 @@ public class AddRoleCommandHandler : IRequestHandler<AddRoleCommand, Response<Un
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IMediator _mediator;
 
-    public AddRoleCommandHandler(UserManager<IdentityUser> userManager,IMediator mediator)
+    public AddRoleCommandHandler(UserManager<IdentityUser> userManager, IMediator mediator)
     {
         _userManager = userManager;
         _mediator = mediator;
@@ -18,13 +19,22 @@ public class AddRoleCommandHandler : IRequestHandler<AddRoleCommand, Response<Un
 
     public async Task<Response<Unit>> Handle(AddRoleCommand request, CancellationToken cancellationToken)
     {
-        var addRoleResult = await _userManager.AddToRoleAsync(request.IdentityUser, request.Role);
-        if (!addRoleResult.Succeeded)
+        switch (request.Role)
         {
-            return new Response<Unit>(addRoleResult.Errors.Select(e => e.Description).ToList());
+            case Roles.Admin:
+                await _userManager.AddToRoleAsync(request.IdentityUser, request.Role.ToString());
+                break;
+            case Roles.Manager:
+                await _userManager.AddToRoleAsync(request.IdentityUser, request.Role.ToString());
+                break;
+            case Roles.User:
+                await _userManager.AddToRoleAsync(request.IdentityUser, request.Role.ToString());
+                break;
+            default:
+                throw new ArgumentException("no recognized role");
         }
 
-        await _mediator.Send(new RegistrationMessageCommand(request.IdentityUser, request.Role));
+        await _mediator.Send(new RegistrationMessageCommand(request.IdentityUser));
         return new Response<Unit>(true);
     }
 }

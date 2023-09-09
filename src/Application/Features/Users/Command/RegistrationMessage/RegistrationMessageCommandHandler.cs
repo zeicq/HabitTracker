@@ -29,7 +29,7 @@ public class RegistrationMessageCommandHandler : IRequestHandler<RegistrationMes
 
 
         await _emailService.SendEmailAsync(request.IdentityUser.Email, "Registration Confirmation",
-            $"Click this link to confirm your registration: {emailConfirmationLink}. \n Your role: {request.Role}");
+            $"Click this link to confirm your registration: {emailConfirmationLink}.");
 
 
         string GenerateEmailConfirmationLink(IdentityUser user, string token)

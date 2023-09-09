@@ -27,8 +27,8 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Response<
         {
             return new Response<Unit>(createUserResult.Errors.Select(e => e.Description).ToList());
         }
-        
-       var addRule= await _mediator.Send(new AddRoleCommand(user, "user"));
+
+        var addRule = await _mediator.Send(new AddRoleCommand(user, command.Role));
         return new Response<Unit>(true);
     }
 }
