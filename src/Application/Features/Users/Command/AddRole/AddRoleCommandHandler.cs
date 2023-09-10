@@ -31,7 +31,7 @@ public class AddRoleCommandHandler : IRequestHandler<AddRoleCommand, Response<Un
                 await _userManager.AddToRoleAsync(request.IdentityUser, request.Role.ToString());
                 break;
             default:
-                throw new ArgumentException("no recognized role");
+                return new Response<Unit>("Unknown role specified.");
         }
 
         await _mediator.Send(new RegistrationMessageCommand(request.IdentityUser));
