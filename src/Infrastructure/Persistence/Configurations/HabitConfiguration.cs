@@ -18,6 +18,9 @@ public class HabitConfiguration : IEntityTypeConfiguration<Habit>
         builder.Property(p => p.LongestStreakCount).IsRequired();
         builder.ConfigureEntityAuditData();
         
-        
+        builder.HasOne(h => h.UserProfile)
+            .WithMany(u => u.Habits)
+            .HasForeignKey(h => h.UserId)
+            .IsRequired();
     }
 }

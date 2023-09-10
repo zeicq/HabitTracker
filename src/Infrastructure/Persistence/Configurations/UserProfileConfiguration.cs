@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class UserConfiguration: IEntityTypeConfiguration<UserProfile>
+public class UserProfileConfiguration: IEntityTypeConfiguration<UserProfile>
 {
     public void Configure(EntityTypeBuilder<UserProfile> builder)
     { 
@@ -12,10 +12,10 @@ public class UserConfiguration: IEntityTypeConfiguration<UserProfile>
         builder.Property(u=>u.FirstName).HasMaxLength(100).IsRequired(false);;
         builder.Property(u=>u.LastName).HasMaxLength(500).IsRequired(false);;
         builder.ConfigureEntityAuditData();
-        
-        builder.HasOne(u => u.IdentityUser) 
-            .WithOne() 
-            .HasForeignKey<UserProfile>(u => u.UserId); 
-        
+
+        builder.HasOne(u => u.IdentityUser)
+            .WithOne()        
+            .HasForeignKey<UserProfile>(u => u.UserId);
+
     }
 }

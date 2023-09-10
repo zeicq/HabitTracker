@@ -21,7 +21,7 @@ public class MssqlDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<IdentityUser>().ToTable("IdentityUser");
+        modelBuilder.Entity<IdentityUser>().ToTable("UsersIdentity");
         modelBuilder.Entity<IdentityRole>().HasData(
             new IdentityRole {Id = "1",Name = "Admin",NormalizedName = "ADMIN"},
             new IdentityRole {Id = "2", Name = "User",NormalizedName = "USER"},
@@ -31,7 +31,7 @@ public class MssqlDbContext : DbContext
 
         modelBuilder.ApplyConfiguration(new HabitConfiguration());
         modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
-        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new UserProfileConfiguration());
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
