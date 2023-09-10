@@ -14,11 +14,16 @@
 Default Roles are as follows.
 - Admin
 - User
-- Manager
 ## Default credentials
 - Admin - admin@admin.com / Password - Test123!@#
 - User - user@user.com  / Password - Test123!@#
-  
+
+## Database
+![Database](img/Database_diagram.png)
+
+## API endpoints
+![Database](img/endpoints.png) 
+ 
 ## Features
 - [x] Onion Architecture
 - [x] CQRS with MediatR
@@ -34,6 +39,7 @@ Default Roles are as follows.
 - [x] Role based Authorization
 - [x] User Management Module (register / generate token)
 - [ ] Redis Caching
+- [x] InMemory Caching
 - [x] SQL Server Database
 - [x] Seeding Users
 - [x] Custom Exception Handling Middlewares
@@ -42,14 +48,5 @@ Default Roles are as follows.
 - [ ] Serilog/NLog
 - [x] Swagger UI
 - [x] Response Wrappers
-- [ ] Unit tests
-- [ ] Moq
-- [ ] FluentValidation
-- [ ] Bogus
+- [x] Unit tests (Moq, Fluent Assertions, Bogus)
 - [ ] Integrated tests
-
-## Database
-![Database](img/Database_diagram.png)
-
-## API endpoints
-![Database](img/endpoints.png)

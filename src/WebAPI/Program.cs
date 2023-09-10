@@ -26,6 +26,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireManagerRole", policy =>
         policy.RequireRole("Manager"));
 });
+builder.Services.AddMemoryCache();
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {

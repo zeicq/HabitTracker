@@ -4,7 +4,9 @@ using System.Text;
 using Application.Exceptions;
 using Application.Shared;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,11 +16,13 @@ public class GenerateTokenCommandHandler : IRequestHandler<GenerateTokenCommand,
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IConfiguration _configuration;
+    private readonly IMemoryCache _memoryCache;
 
-    public GenerateTokenCommandHandler(UserManager<IdentityUser> userManager, IConfiguration configuration)
+    public GenerateTokenCommandHandler(UserManager<IdentityUser> userManager, IConfiguration configuration, IMemoryCache memoryCache)
     {
         _userManager = userManager;
         _configuration = configuration;
+        _memoryCache = memoryCache;
     }
 
     public async Task <Response<string>> Handle(GenerateTokenCommand command, CancellationToken cancellationToken)
@@ -28,8 +32,9 @@ public class GenerateTokenCommandHandler : IRequestHandler<GenerateTokenCommand,
         if (user != null && await _userManager.CheckPasswordAsync(user, command.Password))
         {
             var token = GenerateJwtToken(user);
-            var x = token.Result;
-            return new Response<string>() {Data = x,Succeeded = true};
+            var result = token.Result;
+            _memoryCache.Set("UserId", user.Id);
+            return new Response<string>() {Data = result,Succeeded = true};
             
         }
 
