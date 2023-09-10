@@ -35,9 +35,9 @@ public class HabitController : CommonApiController
     [HttpGet(Name = "GetAll")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<HabitViewModel>>> GetAllPosts()
+    public async Task<ActionResult<List<HabitViewModel>>> GetAllPosts(int pageSize=1,int page=10)
     {
-        return Ok(await Mediator.Send(new GetHabitsQuery()));
+        return Ok(await Mediator.Send(new GetHabitsQuery(){PageSize = pageSize,PageNumber = page}));
     }
 
     [HttpPut(Name = "UpdateHabit")]

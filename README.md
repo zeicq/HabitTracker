@@ -44,7 +44,7 @@ Default Roles are as follows.
 - [x] Seeding Users
 - [x] Custom Exception Handling Middlewares
 - [ ] API Versioning
-- [ ] Pagination
+- [x] Pagination
 - [ ] Serilog/NLog
 - [x] Swagger UI
 - [x] Response Wrappers
