@@ -1,12 +1,24 @@
+using System.Diagnostics;
 using Application;
 using Hangfire;
 using Infrastructure;
 using Infrastructure.Seeds;
 using Microsoft.AspNetCore.Identity;
+using Serilog;
 using WebAPI.Extensions;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
 var configuration = builder.Configuration;
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration.GetSection("Serilog"))
+    .WriteTo.Console()
+    .CreateLogger();
+
+configuration.GetSection("Serilog").Get<LoggerConfiguration>();
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -14,17 +26,13 @@ builder.Services.ConfigureSwagger();
 
 builder.Services.ApplicationServices();
 builder.Services.InfrastructureServices(configuration);
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.ConfigureIdentityOptions(configuration);
 builder.Services.ConfigureJwtAuthentication(configuration);
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("RequireAdminRole", policy =>
-        policy.RequireRole("Admin"));
-    options.AddPolicy("RequireUserRole", policy =>
-        policy.RequireRole("User"));
-    options.AddPolicy("RequireManagerRole", policy =>
-        policy.RequireRole("Manager"));
+    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
+    options.AddPolicy("RequireManagerRole", policy => policy.RequireRole("Manager"));
 });
 builder.Services.AddMemoryCache();
 var app = builder.Build();
@@ -33,7 +41,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHangfireDashboard("/hangfire");
 app.UseHttpsRedirection();
 app.UseAuthorization();
@@ -48,11 +55,14 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
+        Log.Information("Adding new accounts");
         await StandardUsers.SeedStandardAsync(userManager, roleManager);
+        Log.Information("Accounts were addedd");
     }
     catch (Exception ex)
     {
-        Console.WriteLine("An error occurred while seeding the database.");
+        Log.Information(ex.Message);
+        
     }
 }
 
