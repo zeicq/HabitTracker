@@ -6,7 +6,7 @@ using Application.Shared;
 using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace UnitTest.Features;
@@ -19,9 +19,8 @@ public class RegisterCommandHandlerTests
         // Arrange
         var userManagerMock = new Mock<UserManager<IdentityUser>>(
             Mock.Of<IUserStore<IdentityUser>>(), null, null, null, null, null, null, null, null);
-
         var mediatorMock = new Mock<IMediator>();
-
+        var loggerMock = new Mock<ILogger<RegisterCommandHandler>>();
         var command = new RegisterCommand
         {
             Email = "test@example.com",
@@ -34,7 +33,7 @@ public class RegisterCommandHandlerTests
         userManagerMock.Setup(u => u.FindByEmailAsync(command.Email))
             .ReturnsAsync(new IdentityUser { Id = "GuidID" });
 
-        var handler = new RegisterCommandHandler(userManagerMock.Object, mediatorMock.Object);
+        var handler = new RegisterCommandHandler(userManagerMock.Object, mediatorMock.Object, loggerMock.Object);
 
         // Act
         var response = await handler.Handle(command, CancellationToken.None);
@@ -58,9 +57,9 @@ public class RegisterCommandHandlerTests
         // Arrange
         var userManagerMock = new Mock<UserManager<IdentityUser>>(
             Mock.Of<IUserStore<IdentityUser>>(), null, null, null, null, null, null, null, null);
-
         var mediatorMock = new Mock<IMediator>();
-
+        var loggerMock = new Mock<ILogger<RegisterCommandHandler>>();
+        
         var command = new RegisterCommand
         {
             Email = "test@example.com",
@@ -80,7 +79,7 @@ public class RegisterCommandHandlerTests
             .ReturnsAsync(new Response<Unit>(true));
 
 
-        var handler = new RegisterCommandHandler(userManagerMock.Object, mediatorMock.Object);
+        var handler = new RegisterCommandHandler(userManagerMock.Object, mediatorMock.Object,loggerMock.Object);
 
         // Act
         var response = await handler.Handle(command, CancellationToken.None);

@@ -43,9 +43,8 @@ Default Roles are as follows.
 - [x] SQL Server Database
 - [x] Seeding Users
 - [x] Custom Exception Handling Middlewares
-- [ ] API Versioning
 - [x] Pagination
-- [ ] Serilog/NLog
+- [x] Serilog/NLog
 - [x] Swagger UI
 - [x] Response Wrappers
 - [x] Unit tests (Moq, Fluent Assertions, Bogus)
