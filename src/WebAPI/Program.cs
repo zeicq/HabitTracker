@@ -15,7 +15,7 @@ var configuration = builder.Configuration;
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
     .ReadFrom.Configuration(hostingContext.Configuration));
 Log.Information("Starting up");
-
+;
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
@@ -31,10 +31,9 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireManagerRole", policy => policy.RequireRole("Manager"));
 });
 builder.Services.AddMemoryCache();
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = configuration.GetConnectionString("RedisCache");
-});
+//builder.Services.AddSingleton<IConnectionMultiplexer>(
+//   ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisCache")));
+
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
