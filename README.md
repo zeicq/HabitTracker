@@ -38,7 +38,7 @@ Default Roles are as follows.
 - [x] Microsoft Identity (Users/Role/UserInRoles)
 - [x] Role based Authorization
 - [x] User Management Module (register / generate token)
-- [ ] Redis Caching
+- [x] Redis Caching
 - [x] InMemory Caching
 - [x] SQL Server Database
 - [x] Seeding Users
